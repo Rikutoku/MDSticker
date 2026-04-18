@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MDSticker (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MDSticker (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
