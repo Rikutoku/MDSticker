@@ -8,11 +8,14 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Numerics;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -28,30 +31,38 @@ namespace MDSticker
         {
             InitializeComponent();
 
-            OverlappedPresenter presenter = OverlappedPresenter.Create();
-            presenter.IsResizable = true;
-            presenter.IsMaximizable = false;
-            presenter.IsMinimizable = false;
-            AppWindow.SetPresenter(presenter);
-            ExtendsContentIntoTitleBar = true;
+            //OverlappedPresenter presenter = OverlappedPresenter.Create();
+            //presenter.IsResizable = true;
+            //presenter.IsMaximizable = false;
+            //presenter.IsMinimizable = false;
+            //AppWindow.SetPresenter(presenter);
 
-            AppWindow.Resize(new Windows.Graphics.SizeInt32(markdownFile.windowWidth, markdownFile.windowHeight));
-            AppWindow.Move(new Windows.Graphics.PointInt32(markdownFile.windowX, markdownFile.windowY));
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(customTitlebar);
 
-            if (!string.IsNullOrEmpty(markdownFile.path))
+            AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Collapsed;
+            AppWindow.Resize(new Windows.Graphics.SizeInt32(markdownFile.WindowWidth, markdownFile.WindowHeight));
+            AppWindow.Move(new Windows.Graphics.PointInt32(markdownFile.WindowX, markdownFile.WindowY));
+
+            if (!string.IsNullOrEmpty(markdownFile.Path))
             {
-                this.MarkdownViewer.Text = System.IO.File.ReadAllText(markdownFile.path);
+                this.MarkdownViewer.Text = System.IO.File.ReadAllText(markdownFile.Path);
             }
-        }
-
-        private void CloseButton_Click(object sender, WindowEventArgs e)
-        {
-
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //App.AddWindow();
+            
+        }
+
+        private void customTitlebar_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            customTitlebarContent.Translation =new Vector3(0, 0, 0);
+        }
+
+        private void customTitlebar_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            customTitlebarContent.Translation = new Vector3(0, -32, 0);
         }
     }
 }

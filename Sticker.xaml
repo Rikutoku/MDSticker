@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:a="using:Microsoft.UI.Xaml.Media.Animation"
     mc:Ignorable="d"
     Title="Sticker">
 
@@ -25,11 +26,49 @@
             </MenuFlyout>
         </Grid.ContextFlyout>
 
-        <ScrollViewer Padding="16,24,16,16" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Padding="16,8,16,16" VerticalScrollBarVisibility="Auto">
             <controls:MarkdownTextBlock
                 x:Name="MarkdownViewer"
                 Text="Select a file to begin..."
                 Background="Transparent" />
         </ScrollViewer>
+
+        <Grid x:Name="customTitlebar"
+              VerticalAlignment="Top"
+              Height="40"
+              Background="Transparent"
+              PointerEntered="customTitlebar_PointerEntered"
+              PointerExited="customTitlebar_PointerExited">
+            <Grid
+                x:Name="customTitlebarContent"
+                Background="{StaticResource SystemAccentColor}"
+                Translation="0,-32,0">
+
+                <Grid.TranslationTransition>
+                    <Vector3Transition/>
+                </Grid.TranslationTransition>
+
+                <Button x:Name="OpenSticker"
+                        HorizontalAlignment="Left"
+                        Opacity="1"
+                        Style="{StaticResource SubtleButtonStyle}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="OpenFile" />
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="CloseSticker"
+                        HorizontalAlignment="Right"
+                        Opacity="1"
+                        Style="{StaticResource SubtleButtonStyle}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <SymbolIcon Symbol="Cancel" />
+                    </StackPanel>
+                </Button>
+                
+            </Grid>
+        </Grid>
     </Grid>
 </Window>

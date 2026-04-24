@@ -1,7 +1,9 @@
 {
   "profiles": {
     "MDSticker (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": true,
+      "alwaysReinstallApp": true
     },
     "MDSticker (Unpackaged)": {
       "commandName": "Project"
