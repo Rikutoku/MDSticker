@@ -15,8 +15,8 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid x:Name="RootGrid">
-        <Grid.ContextFlyout>
+    <Grid x:Name="RootGrid" Loaded="RootGrid_Loaded">
+        <!--<Grid.ContextFlyout>
             <MenuFlyout>
                 <MenuFlyoutItem Text="Open New" Click="AddButton_Click">
                     <MenuFlyoutItem.Icon>
@@ -24,7 +24,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyout>
-        </Grid.ContextFlyout>
+        </Grid.ContextFlyout>-->
 
         <ScrollViewer Padding="16,8,16,16" VerticalScrollBarVisibility="Auto">
             <controls:MarkdownTextBlock
@@ -50,8 +50,8 @@
 
                 <Button x:Name="OpenSticker"
                         HorizontalAlignment="Left"
-                        Opacity="1"
-                        Style="{StaticResource SubtleButtonStyle}">
+                        Style="{StaticResource SubtleButtonStyle}"
+                        Click="OpenSticker_Click">
 
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="OpenFile" />
@@ -60,8 +60,8 @@
 
                 <Button x:Name="CloseSticker"
                         HorizontalAlignment="Right"
-                        Opacity="1"
-                        Style="{StaticResource SubtleButtonStyle}">
+                        Style="{StaticResource SubtleButtonStyle}"
+                        Click="CloseSticker_Click">
 
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Cancel" />

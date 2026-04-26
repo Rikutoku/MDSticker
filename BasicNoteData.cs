@@ -3,11 +3,11 @@ using Windows.UI;
 
 public class BasicNoteData
 {
-	public required string Path { get; set; }
+	public string? Path { get; set; } = null;
 
-	public int WindowX { get; set; } = 0;
+	public int WindowX { get; set; } = 50;
 
-	public int WindowY { get; set; }= 0;
+	public int WindowY { get; set; }= 50;
 
 	public int WindowWidth { get; set; } = 500;
 
