@@ -9,6 +9,16 @@ Markdown sticky notes for desktop. Open any `.md` file and it floats as a framel
 ## Almost everything is vibecoded
 ---
 
+## To do
+- [x] ~~Startup fix~~
+- [x] ~~Color theme~~
+- [ ] HTML sanitization
+- [ ] Add video and screenshots to project description
+- [ ] Quick edit functionality
+- [ ] Opening note in external editor
+
+---
+
 ## Features
 
 - 📄 Open any Markdown file as a sticky note window
