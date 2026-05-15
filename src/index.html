@@ -7,48 +7,75 @@
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
-        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-square" viewBox="0 0 16 16">
-          <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-        </svg> -->
-
-
-        <!-- ── Draggable header ────────────────────────────────────────────────── -->
-        <!-- Collapses (opacity → 0, height → 0) when the window loses focus.      -->
+        <!-- ── Draggable header ────────────────────────────────────────────── -->
         <div class="header" id="header">
-            <!--<button id="btn-open" class="ActionButtons" title="Open new note">
-
-            </button>-->
-
-
-            <button id="btn-open" title="Open new note">Open</button>
-
-            <!-- btn-color wraps a hidden <input type="color"> so clicking the button
-         activates the native colour picker without extra JS ceremony.        -->
-            <button id="btn-color" title="Accent color">
-                <img
-                    src="/assets/color-swatch.svg"
-                    alt="Open"
-                    width="16"
-                    height="16"
-                />
-                <input type="color" id="color-input" tabindex="-1" />
+            <button id="btn-open" title="Open new note">
+                <svg
+                    class="icons"
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="currentColor"
+                >
+                    <path
+                        d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v268q-19-9-39-15.5t-41-9.5v-243H200v560h242q3 22 9.5 42t15.5 38H200Zm0-120v40-560 243-3 280Zm80-40h163q3-21 9.5-41t14.5-39H280v80Zm0-160h244q32-30 71.5-50t84.5-27v-3H280v80Zm0-160h400v-80H280v80ZM720-40q-83 0-141.5-58.5T520-240q0-83 58.5-141.5T720-440q83 0 141.5 58.5T920-240q0 83-58.5 141.5T720-40Zm-20-80h40v-100h100v-40H740v-100h-40v100H600v40h100v100Z"
+                    />
+                </svg>
             </button>
 
-            <button id="btn-close" title="Close window">
-                &#10006
-            </button>
+            <div>
+                <button id="btn-color" title="Accent color">
+                    <svg
+                        class="icons"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 32.5-156t88-127Q256-817 330-848.5T488-880q80 0 151 27.5t124.5 76q53.5 48.5 85 115T880-518q0 115-70 176.5T640-280h-74q-9 0-12.5 5t-3.5 11q0 12 15 34.5t15 51.5q0 50-27.5 74T480-80Zm0-400Zm-177 23q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120-160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm200 0q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17Zm120 160q17-17 17-43t-17-43q-17-17-43-17t-43 17q-17 17-17 43t17 43q17 17 43 17t43-17ZM480-160q9 0 14.5-5t5.5-13q0-14-15-33t-15-57q0-42 29-67t71-25h70q66 0 113-38.5T800-518q0-121-92.5-201.5T488-800q-136 0-232 93t-96 227q0 133 93.5 226.5T480-160Z"
+                        />
+                    </svg>
+                </button>
+
+                <button id="btn-close" title="Close window">
+                    <svg
+                        class="icons"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="18px"
+                        width="18px"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                    >
+                        <path
+                            d="M2.4,24l-2.4,-2.4l9.6,-9.6l-9.6,-9.6l2.4,-2.4l9.6,9.6l9.6,-9.6l2.4,2.4l-9.6,9.6l9.6,9.6l-2.4,2.4l-9.6,-9.6l-9.6,9.6Z"
+                        />
+                    </svg>
+                </button>
+            </div>
         </div>
 
-        <!-- ── Scrollable Markdown render area ────────────────────────────────── -->
+        <!-- ── Accent colour palette (shown on btn-color click) ────────────── -->
+        <!-- Backgrounds and active state are set entirely by main.js using     -->
+        <!-- ACCENT_PAIRS, so no colours are hardcoded here.                    -->
+        <div id="color-palette" class="color-palette" hidden>
+            <button class="color-swatch" title="Teal"></button>
+            <button class="color-swatch" title="Gold"></button>
+            <button class="color-swatch" title="Green"></button>
+            <button class="color-swatch" title="Blue"></button>
+            <button class="color-swatch" title="Purple"></button>
+            <button class="color-swatch" title="Red"></button>
+        </div>
+
+        <!-- ── Scrollable Markdown render area ────────────────────────────── -->
         <div class="content" id="content"></div>
 
         <!--
-        marked.umd.js  ← place this file here before running.
-        Download the latest release from:
-          https://github.com/markedjs/marked/releases
-        (look for marked.umd.js in the release assets, or use marked.min.js and rename it)
-      -->
+            marked.umd.js  ← place this file here before running.
+            Download from: https://github.com/markedjs/marked/releases
+        -->
         <script src="marked.umd.js"></script>
         <script src="main.js"></script>
     </body>

@@ -145,12 +145,14 @@ pub async fn open_note_window_impl(app: &AppHandle, path: String) -> Result<Stri
     // restore path to use them as if they were physical, making the window grow
     // on every restart.  Reading back the truth from the OS keeps the stored
     // values in sync with what JS `outerSize()` / `outerPosition()` will see.
-    let phys_size = window
-        .outer_size()
-        .unwrap_or(tauri::PhysicalSize { width: 320, height: 480 });
-    let phys_pos = window
-        .outer_position()
-        .unwrap_or(tauri::PhysicalPosition { x: init_x as i32, y: init_y as i32 });
+    let phys_size = window.outer_size().unwrap_or(tauri::PhysicalSize {
+        width: 320,
+        height: 480,
+    });
+    let phys_pos = window.outer_position().unwrap_or(tauri::PhysicalPosition {
+        x: init_x as i32,
+        y: init_y as i32,
+    });
 
     let is_first = settings.windows.is_empty();
     settings.windows.push(WindowSettings {
@@ -160,7 +162,7 @@ pub async fn open_note_window_impl(app: &AppHandle, path: String) -> Result<Stri
         y: phys_pos.y,
         width: phys_size.width,
         height: phys_size.height,
-        accent_color: "#4ade80".to_string(),
+        accent_color: "#715a5a".to_string(),
     });
     settings.save(app)?;
 

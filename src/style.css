@@ -1,40 +1,66 @@
+/*
+Color RoleLight Mode (#d3dad9)Dark Mode (#37353e)
+Accent 1 (Teal)	#2d5e5c	#528c8b
+Accent 2 (Yellow/Gold)	#8c6f36	#bd9b5b
+Accent 3 (Green)	#4d5e3c	#828c61
+Accent 4 (Blue)	#3a5675	#6382a1
+Accent 5 (Purple)	#6b5687	#9c89b8
+Accent 6 (Red/Orange)	#8a4336	#b56a5c*/
+
 /* ── CSS custom properties ──────────────────────────────────────────────── */
 :root {
-  --accent : #4ade80;   /* overridden per-window via JS */
-  --bg     : #1e1e1e;
-  --text   : #d4d4d4;
+    --accent: #715a5a; /* overridden per-window via JS */
+
+    --bg: #d3dad9;
+    --text: #2f3130;
+    --icon-color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #37353e;
+        --text: #e6e4e8;
+    }
 }
 
 /* ── Reset ──────────────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 /* ── Root window ─────────────────────────────────────────────────────────
    transparent = true in Tauri means the OS compositor uses the <body>
    background.  We give the body a dark background + rounded corners so the
    note looks like a floating card on the desktop.                          */
-html, body {
-  height: 100%;
-  overflow: hidden;
-  background: transparent;   /* outer shell is transparent for the shadow */
-}
+/*html,
+body {
+    height: 100%;
+    overflow: hidden;
+    background: transparent; /* outer shell is transparent for the shadow */
+/*}*/
 
 body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: var(--bg);
-  color: var(--text);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+    position: relative; /* positioning context for header + palette */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+    font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 /* ── Header ──────────────────────────────────────────────────────────────
@@ -42,202 +68,283 @@ body {
    Buttons must opt out with -webkit-app-region: no-drag so they are
    still clickable.                                                         */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 4px;
-  padding: 0 8px;
-  height: 40px;
-  min-height: 40px;
-  background: var(--accent);
-  -webkit-app-region: drag;
-  user-select: none;
-
-  /* Collapse animation */
-  overflow: hidden;
-  max-height: 40px;
-  opacity: 1;
-  transition: opacity 0.18s ease, max-height 0.18s ease;
+    position: absolute;
+    z-index: 10; /* sit above .content */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    background: var(--accent);
+    -webkit-app-region: drag;
+    user-select: none;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .header.collapsed {
-  opacity: 0;
-  max-height: 0;
-  pointer-events: none;
+    transform: translateY(-80%);
+    pointer-events: none;
+}
+
+.header div {
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
 }
 
 .header button {
-  background: rgba(0, 0, 0, 0.22);
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  font-size: 12px;
-  padding: 3px 9px;
-  cursor: pointer;
-  -webkit-app-region: no-drag;   /* must be clickable, not draggable */
-  transition: background 0.12s ease;
-  position: relative;            /* for the hidden color-input child */
-  line-height: 1.6;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center; /* Vertically centers the icon */
+    justify-content: center;
+    background: rgba(0, 0, 0, 0);
+    border: none;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    -webkit-app-region: no-drag; /* must be clickable, not draggable */
+    transition: background 0.12s ease;
+    position: relative; /* for the hidden color-input child */
 }
 
-.header button:hover  { background: rgba(0, 0, 0, 0.36); }
-.header button:active { background: rgba(0, 0, 0, 0.50); }
+.header button:hover {
+    background: rgba(0, 0, 0, 0.36);
+}
+.header button:active {
+    background: rgba(0, 0, 0, 0.5);
+}
 
-/* Hidden color picker — positioned over btn-color so the browser's native
-   "pick" mechanism is triggered without showing a swatch.                 */
-#color-input {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  pointer-events: none; /* JS triggers .click() programmatically */
-  border: none;
-  padding: 0;
+.icons {
+    color: var(--icon-color);
+}
+
+#btn-close:hover {
+    background: rgba(229, 80, 80, 1);
+}
+
+/* ── Accent colour palette ───────────────────────────────────────────────
+   Appears below the header when btn-color is clicked.                     */
+.color-palette {
+    position: absolute;
+    top: 48px; /* just below the 40px header */
+    right: 6px;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding: 8px;
+    background: var(--bg);
+    border: 1px solid rgba(128, 128, 128, 0.25);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    -webkit-app-region: no-drag;
+}
+
+/* [hidden] attribute hides the palette */
+.color-palette[hidden] {
+    display: none;
+}
+
+.color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition:
+        transform 0.1s ease,
+        border-color 0.15s ease;
+    -webkit-app-region: no-drag;
+}
+
+.color-swatch:hover {
+    transform: scale(1.15);
+}
+
+.color-swatch.active {
+    border-color: #fff;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 /* ── Content area ────────────────────────────────────────────────────────
    flex-grow: 1 fills the remaining height below the header.               */
 .content {
-  flex: 1 1 0;
-  overflow-y: auto;
-  padding: 12px 16px 16px;
-  line-height: 1.6;
-  word-break: break-word;
+    flex: 1 1 0;
+    min-height: 0; /* required: lets the flex item shrink so overflow-y:auto works */
+    overflow-y: auto;
+    padding: 28px 16px 16px; /* 48px clears the 40px absolute header + breathing room */
+    line-height: 1.6;
+    word-break: break-word;
 }
 
 /* Custom scrollbar (WebKit) */
-.content::-webkit-scrollbar       { width: 5px; }
-.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar {
+    width: 5px;
+}
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
 .content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
 }
 .content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.28);
 }
 
 /* ── Markdown typography ─────────────────────────────────────────────── */
-.content h1, .content h2, .content h3,
-.content h4, .content h5, .content h6 {
-  color: var(--accent);
-  line-height: 1.25;
-  margin: 0.9em 0 0.35em;
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
+    color: var(--accent);
+    line-height: 1.25;
+    margin: 0.9em 0 0.35em;
 }
-.content h1 { font-size: 1.35em; }
-.content h2 { font-size: 1.15em; }
-.content h3 { font-size: 1.0em;  }
-.content h4, .content h5, .content h6 { font-size: 0.92em; }
+.content h1 {
+    font-size: 1.35em;
+}
+.content h2 {
+    font-size: 1.15em;
+}
+.content h3 {
+    font-size: 1em;
+}
+.content h4,
+.content h5,
+.content h6 {
+    font-size: 0.92em;
+}
 
 /* First heading needs no top margin */
-.content > *:first-child { margin-top: 0; }
+.content > *:first-child {
+    margin-top: 0;
+}
 
-.content p     { margin: 0.45em 0; font-size: 0.9em; }
-.content strong { color: #eaeaea; }
-.content em     { color: #b8c4b8; }
+.content p {
+    margin: 0.45em 0;
+    font-size: 0.9em;
+}
+.content strong {
+    color: #eaeaea;
+}
+.content em {
+    color: #b8c4b8;
+}
 
 .content ul,
 .content ol {
-  margin: 0.45em 0 0.45em 1.5em;
-  font-size: 0.9em;
+    margin: 0.45em 0 0.45em 1.5em;
+    font-size: 0.9em;
 }
-.content li { margin: 0.2em 0; }
+.content li {
+    margin: 0.2em 0;
+}
 
 /* Inline code */
 .content code {
-  font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-  background: rgba(255, 255, 255, 0.09);
-  border-radius: 3px;
-  padding: 1px 5px;
-  font-size: 0.84em;
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    background: rgba(255, 255, 255, 0.09);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.84em;
 }
 
 /* Fenced code blocks */
 .content pre {
-  background: rgba(255, 255, 255, 0.05);
-  border-left: 3px solid var(--accent);
-  border-radius: 4px;
-  padding: 10px 12px;
-  overflow-x: auto;
-  margin: 0.6em 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 10px 12px;
+    overflow-x: auto;
+    margin: 0.6em 0;
 }
 .content pre code {
-  background: none;
-  padding: 0;
-  font-size: 0.84em;
-  border: none;
+    background: none;
+    padding: 0;
+    font-size: 0.84em;
+    border: none;
 }
 
 /* Blockquotes */
 .content blockquote {
-  border-left: 3px solid var(--accent);
-  margin: 0.6em 0;
-  padding: 4px 12px;
-  color: rgba(212, 212, 212, 0.65);
-  font-style: italic;
+    border-left: 3px solid var(--accent);
+    margin: 0.6em 0;
+    padding: 4px 12px;
+    color: rgba(212, 212, 212, 0.65);
+    font-style: italic;
 }
 
 /* Horizontal rule */
 .content hr {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 1em 0;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 1em 0;
 }
 
 /* Links */
-.content a            { color: var(--accent); text-decoration: none; }
-.content a:hover      { text-decoration: underline; }
+.content a {
+    color: var(--accent);
+    text-decoration: none;
+}
+.content a:hover {
+    text-decoration: underline;
+}
 
 /* Tables */
 .content table {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 0.6em 0;
-  font-size: 0.86em;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.6em 0;
+    font-size: 0.86em;
 }
 .content th,
 .content td {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  padding: 4px 8px;
-  text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 4px 8px;
+    text-align: left;
 }
 .content th {
-  background: rgba(255, 255, 255, 0.07);
-  color: var(--accent);
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--accent);
 }
 
 /* Images */
 .content img {
-  max-width: 100%;
-  border-radius: 4px;
+    max-width: 100%;
+    border-radius: 4px;
 }
 
 /* ── File-deleted warning banner ─────────────────────────────────────── */
 .deleted-banner {
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  border-radius: 5px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  font-size: 0.84em;
-  color: #fca5a5;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-size: 0.84em;
+    color: #fca5a5;
 }
 
 /* ── Toast notification ──────────────────────────────────────────────── */
 .toast {
-  position: fixed;
-  bottom: 14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(35, 35, 35, 0.97);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  padding: 7px 16px;
-  font-size: 0.84em;
-  color: var(--text);
-  pointer-events: none;
-  z-index: 9999;
-  white-space: nowrap;
+    position: fixed;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(35, 35, 35, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 6px;
+    padding: 7px 16px;
+    font-size: 0.84em;
+    color: var(--text);
+    pointer-events: none;
+    z-index: 9999;
+    white-space: nowrap;
 }
