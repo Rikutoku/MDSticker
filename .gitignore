@@ -26,3 +26,4 @@ src-tauri/Cargo.lock
 AgentInstructions.md
 Agent's work.md
 .vscode/extensions.json
+src/marked.umd.js
